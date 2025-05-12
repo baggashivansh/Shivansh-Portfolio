@@ -1,96 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Shivansh Bagga - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shivansh Bagga</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Shivansh Bagga</h1>
-            </div>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#connect">Connect</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h2></h2>
-            <p>I'm a Java Developer and Backend Engineer. Let's create something amazing together!</p>
-        </div>
-    </section>
+  <!-- Header -->
+  <header>
+    <nav>
+      <div class="logo">Shivansh Bagga</div>
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <ul id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#connect">Connect</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <h2>About Me</h2>
-        <div class="about-content">
-            <p>I am a passionate developer with expertise in Java, Spring Boot, and backend technologies. I enjoy solving problems, building scalable systems, and working in collaborative environments. I am currently pursuing my Master's in Computer Applications at Chandigarh University.</p>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1 id="typewriter"></h1>
+      <p>Backend Java Developer | Spring Boot Enthusiast | DevOps Learner</p>
+    </div>
+  </section>
 
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <h2>My Skills</h2>
-        <div class="skills-content">
-            <div class="skill">
-                <h3>Java</h3>
-                <p>Core Java, OOP concepts, and multi-threading.</p>
-            </div>
-            <div class="skill">
-                <h3>Spring Boot</h3>
-                <p>Microservices, REST APIs, and Spring Boot framework.</p>
-            </div>
-            <div class="skill">
-                <h3>MySQL</h3>
-                <p>Database design, optimization, and queries.</p>
-            </div>
-            <div class="skill">
-                <h3>Docker</h3>
-                <p>Containerization and managing Docker environments.</p>
-            </div>
-        </div>
-    </section>
+  <!-- About -->
+  <section class="about" id="about">
+    <h2>About Me</h2>
+    <p>I’m a Java developer with a solid foundation in backend technologies, cloud concepts, and software engineering principles. Currently pursuing MCA at Chandigarh University.</p>
+  </section>
 
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <h2>Projects</h2>
-        <div class="project">
-            <h3>Student Deed</h3>
-            <p>An open-source platform for Java, DSA, and DevOps learning resources.</p>
-        </div>
-        <div class="project">
-            <h3>Emotion Music App</h3>
-            <p>An AI-powered music app that plays songs based on facial emotions.</p>
-        </div>
-    </section>
+  <!-- Skills -->
+  <section class="skills" id="skills">
+    <h2>Skills</h2>
+    <div class="skills-grid">
+      <span>Java</span>
+      <span>Spring Boot</span>
+      <span>MySQL</span>
+      <span>Microservices</span>
+      <span>Git</span>
+      <span>Docker</span>
+      <span>YAML</span>
+      <span>Python</span>
+      <span>React.js</span>
+    </div>
+  </section>
 
-    <!-- Social Links Section -->
-    <section class="social-links">
-        <h2>Connect With Me</h2>
-        <div class="social-icons">
-            <a href="https://www.linkedin.com/in/shivanshbagga15/" class="social-icon">LinkedIn</a>
-            <a href="https://github.com/baggashivansh" class="social-icon">GitHub</a>
-            <a href="mailto:shivanshbagga15@gmail.com" class="social-icon">Email Me</a>
-        </div>
-    </section>
+  <!-- Projects -->
+  <section class="projects" id="projects">
+    <h2>Projects</h2>
+    <div class="project-card">
+      <h3>Student Deed</h3>
+      <p>An open-source learning platform for Java, DSA, and DevOps.</p>
+      <ul>
+        <li>Built using Java, Spring Boot, Docker, and MySQL.</li>
+        <li>Hands-on resources and interactive challenges.</li>
+      </ul>
+    </div>
+    <div class="project-card">
+      <h3>Emotion Music App</h3>
+      <p>Flutter + ML app that plays music based on facial expressions.</p>
+      <ul>
+        <li>Uses CNN model trained on FER2013 dataset.</li>
+        <li>Detects user mood and suggests songs accordingly.</li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Shivansh Bagga. All rights reserved.</p>
-    </footer>
+  <!-- Connect -->
+  <section class="connect" id="connect">
+    <h2>Connect With Me</h2>
+    <div class="social-links">
+      <a href="https://linkedin.com/in/shivansh-bagga" target="_blank">LinkedIn</a>
+      <a href="https://github.com/shivanshbagga" target="_blank">GitHub</a>
+      <a href="mailto:shivanshbagga15@gmail.com" target="_blank">Email Me</a>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Shivansh Bagga. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

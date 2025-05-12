@@ -1,40 +1,28 @@
-// Typing Animation for Hero Section
-const heroHeading = document.querySelector('.hero h2');
-const heroParagraph = document.querySelector('.hero p');
+// Typewriter animation
+const typeText = "Hi, I'm Shivansh Bagga!!";
+const typewriter = document.getElementById("typewriter");
+let idx = 0;
 
-const text = "Hi,I'm Shivansh Bagga!!";
-let i = 0;
-let typingSpeed = 70;
-
-function typeWriter() {
-    if (i < text.length) {
-        heroHeading.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, typingSpeed);
-    }
+function typingEffect() {
+  if (idx < typeText.length) {
+    typewriter.innerHTML += typeText.charAt(idx);
+    idx++;
+    setTimeout(typingEffect, 120);
+  } else {
+    setTimeout(() => {
+      typewriter.innerHTML = "";
+      idx = 0;
+      typingEffect();
+    }, 2500);
+  }
 }
 
-window.addEventListener('scroll', () => {
-    const heroPosition = heroHeading.getBoundingClientRect().top;
-    if (heroPosition < window.innerHeight * 0.8 && i === 0) {
-        typeWriter();  // Start typing animation when in view
-    }
+window.onload = typingEffect;
 
-    // Hero Section Scroll Animation
-    if (heroPosition < window.innerHeight * 0.8) {
-        heroHeading.style.opacity = 1;
-        heroHeading.style.transform = 'translateY(0)';
-        heroParagraph.style.opacity = 1;
-        heroParagraph.style.transform = 'translateY(0)';
-    }
-});
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
 
-// Make Header Static after Scrolling
-const header = document.querySelector('header');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        header.classList.add('sticky');
-    } else {
-        header.classList.remove('sticky');
-    }
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
 });
