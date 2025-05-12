@@ -1,40 +1,41 @@
 /* Global Styles */
-body {
-  font-family: 'Poppins', sans-serif;
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #f0f0f0;
 }
 
-h1, h2, h3 {
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f7f7f7;
+}
+
+h1, h2, h3, p {
   color: #333;
 }
 
-a {
-  text-decoration: none;
-  color: #007bff;
-}
-
+/* Header */
 header {
-  position: flex;
+  position: fixed;
   width: 100%;
   background-color: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   top: 0;
   left: 0;
-  padding: 10px 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 100;
 }
 
 header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 header .logo {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
@@ -51,8 +52,9 @@ header ul {
 }
 
 header ul li a {
+  text-decoration: none;
   color: #333;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-transform: uppercase;
 }
 
@@ -72,76 +74,115 @@ header ul li a:hover {
 }
 
 .hero h1 {
-  font-size: 2.5rem;
-  color: #007bff;
+  font-size: 3rem;
+  color: #fff;
   margin-bottom: 1rem;
-  height: 3rem; /* FIXED HEIGHT */
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .hero p {
   font-size: 1.2rem;
-  color: white;
+  color: #fff;
 }
 
 /* About Section */
 .about {
   padding: 50px 20px;
-  background-color: #fff;
   text-align: center;
+  background-color: #fff;
+}
+.about h2::after {
+  content: '';
+  display: block;
+  margin: 10px auto 0;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff;
+  border-radius: 2px;
 }
 
 .about h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 20px;
 }
 
 .about p {
   font-size: 1.2rem;
-  color: #555;
   line-height: 1.6;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* Skills Section */
 .skills {
-  background-color: #fff;
-  padding: 50px 20px;
+  padding: 60px 20px;
+  background-color: #f5f5f5;
   text-align: center;
 }
 
 .skills h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 2.4rem;
+  margin-bottom: 30px;
+  color: #333;
+  position: relative;
 }
 
-.skills-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-}
-
-.skill {
+.skills h2::after {
+  content: '';
+  display: block;
+  margin: 10px auto 0;
+  width: 60px;
+  height: 3px;
   background-color: #007bff;
-  color: white;
-  padding: 15px;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  width: 150px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.skills-grid span {
+  display: inline-block;
+  padding: 14px 20px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.skills-grid span:hover {
+  transform: translateY(-5px);
+  background-color: #0056b3;
 }
 
 /* Projects Section */
 .projects {
   padding: 50px 20px;
-  background-color: #f8f8f8;
+  background-color: #fff;
   text-align: center;
 }
 
+.projects h2::after {
+  content: '';
+  display: block;
+  margin: 10px auto 0;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff;
+  border-radius: 2px;
+}
+
 .projects h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 20px;
 }
 
@@ -154,7 +195,8 @@ header ul li a:hover {
 }
 
 .project-card h3 {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
 .project-card ul {
@@ -169,65 +211,98 @@ header ul li a:hover {
 
 /* Connect Section */
 .connect {
-  background-color: #fff;
-  padding: 50px 20px;
+  padding: 60px 20px;
+  background-color: #f5f5f5;
   text-align: center;
 }
 
 .connect h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 2.4rem;
+  margin-bottom: 30px;
+  color: #333;
+  position: relative;
+}
+
+.connect h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #007bff;
+  margin: 10px auto 0;
+  border-radius: 2px;
 }
 
 .connect .social-links {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
+  margin-top: 20px;
 }
 
 .connect .social-links a {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #007bff;
+  background-color: white;
+  border: 1px solid #007bff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
 }
 
 .connect .social-links a:hover {
-  color: #0056b3;
-}
-
-/* Footer */
-footer {
-  background-color: #333;
+  background-color: #007bff;
   color: white;
-  padding: 20px;
-  text-align: center;
-  margin-top: 50px;
+  transform: translateY(-3px);
 }
 
-/* Mobile Media Queries */
+/* Footer Section */
+footer {
+  background-color: #000000;
+  color: #ececec;
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer p span {
+  color: #007bff;
+  font-weight: 600;
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 1.6rem;
-    height: 2.4rem;
+  header {
+    padding: 10px;
   }
 
   header nav {
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px;
   }
 
-  header .hamburger {
-    display: block;
-    font-size: 2.5rem;
+  header .logo {
+    font-size: 1.5rem;
   }
 
   header ul {
     display: none;
     flex-direction: column;
     gap: 10px;
-    padding: 0;
-    margin-top: 10px;
     width: 100%;
+    margin-top: 10px;
+  }
+
+  header .hamburger {
+    display: block;
   }
 
   header ul.active {
@@ -235,9 +310,26 @@ footer {
   }
 
   header ul li a {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 10px;
     width: 100%;
     text-align: left;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .skills-grid {
+    gap: 10px;
+  }
+
+  .skills-grid span {
+    width: 120px;
+    font-size: 1rem;
+  }
+
+  .projects .project-card {
+    padding: 15px;
   }
 }
