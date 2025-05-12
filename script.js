@@ -1,43 +1,28 @@
-// Typing animation
-const typewriter = document.getElementById("typewriter");
-const text = "Hi, I'm Shivansh Bagga!!";
+// Typewriter Effect for Hero Section
 let index = 0;
+let text = "Hi, I am Shivansh Bagga!";
+let typewriter = document.getElementById("typewriter");
 
 function type() {
   if (index < text.length) {
     typewriter.innerHTML += text.charAt(index);
     index++;
-    setTimeout(type, 70);
+    setTimeout(type, 60);
   } else {
     setTimeout(() => {
       typewriter.innerHTML = "";
       index = 0;
       type();
-    }, 2000);
+    }, 1500);
   }
 }
 
-type();
+window.onload = type;
 
-// Scroll animation
-function revealOnScroll() {
-  const reveals = document.querySelectorAll(".reveal");
-  for (let el of reveals) {
-    const windowHeight = window.innerHeight;
-    const revealTop = el.getBoundingClientRect().top;
-    if (revealTop < windowHeight - 100) {
-      el.classList.add("active");
-    }
-  }
-}
+// Hamburger Menu Toggle for Mobile
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
 
-window.addEventListener("scroll", revealOnScroll);
-window.addEventListener("load", revealOnScroll);
-
-// Hamburger menu toggle
-const hamburger = document.getElementById("hamburger");
-const navLinks = document.getElementById("nav-links");
-
-hamburger.addEventListener("click", () => {
-  navLinks.classList.toggle("show");
+hamburger.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
 });
