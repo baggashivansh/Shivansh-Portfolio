@@ -16,7 +16,7 @@ h1, h2, h3, p {
 
 /* Header */
 header {
-  position: fixed;
+  position: flex;
   width: 100%;
   background-color: #fff;
   padding: 15px 30px;
