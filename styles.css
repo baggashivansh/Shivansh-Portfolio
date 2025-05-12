@@ -17,7 +17,7 @@ a {
 }
 
 header {
-  position: flex;
+  position: fixed;
   width: 100%;
   background-color: #fff;
   top: 0;
@@ -41,6 +41,7 @@ header .logo {
 header .hamburger {
   display: none;
   font-size: 2rem;
+  cursor: pointer;
 }
 
 header ul {
@@ -52,6 +53,7 @@ header ul {
 header ul li a {
   color: #333;
   font-size: 1.1rem;
+  text-transform: uppercase;
 }
 
 header ul li a:hover {
@@ -201,35 +203,41 @@ footer {
   margin-top: 50px;
 }
 
-/* Media Queries */
+/* Mobile Media Queries */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 1.6rem;
     height: 2.4rem;
   }
 
-  header ul {
-    display: none;
+  header nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
   }
 
   header .hamburger {
     display: block;
-  }
-
-  header .hamburger.active + ul {
-    display: block;
-    position: absolute;
-    background-color: #fff;
-    top: 60px;
-    right: 10px;
-    padding: 20px;
-    border-radius: 8px;
+    font-size: 2.5rem;
   }
 
   header ul {
-    display: flex;
+    display: none;
     flex-direction: column;
-    gap: 15px;
-    padding: 10px 0;
+    gap: 10px;
+    padding: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  header ul.active {
+    display: flex;
+  }
+
+  header ul li a {
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
   }
 }
