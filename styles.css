@@ -22,7 +22,7 @@ h1, h2, h3, p {
 header {
   width: 100%;
   background-color: #fff;
-  padding: 15px 30px;
+  padding: 15px 25px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position:-webkit-sticky;
   top: 0;
