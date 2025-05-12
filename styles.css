@@ -295,56 +295,66 @@ footer p span {
 
 /* Mobile Styles */
 @media (max-width: 768px) {
-  header {
-    padding: 10px;
-  }
-
   header nav {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  header .logo {
-    font-size: 1.5rem;
+  header .hamburger {
+    display: block;
+    margin-left: auto;
+    font-size: 2rem;
   }
 
   header ul {
     display: none;
     flex-direction: column;
-    gap: 10px;
     width: 100%;
     margin-top: 10px;
-  }
-
-  header .hamburger {
-    display: block;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
   }
 
   header ul.active {
     display: flex;
   }
 
-  header ul li a {
-    font-size: 1.1rem;
-    padding: 10px;
+  header ul li {
     width: 100%;
     text-align: left;
+    padding: 10px 20px;
+  }
+
+  header ul li a {
+    font-size: 1rem;
+    width: 100%;
   }
 
   .hero h1 {
     font-size: 2rem;
   }
+}
 
+@media (max-width: 768px) {
   .skills-grid {
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
   }
 
   .skills-grid span {
-    width: 120px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    width: 100%;
+    text-align: center;
   }
 
-  .projects .project-card {
-    padding: 15px;
+  .skill-category h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .skills {
+    padding: 40px 10px;
   }
 }
