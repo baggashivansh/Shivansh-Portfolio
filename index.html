@@ -11,10 +11,10 @@
 
   <!-- Header -->
   <header>
-    <nav>
+    <nav class="navbar">
       <div class="logo">Shivansh Bagga</div>
       <div class="hamburger" id="hamburger">&#9776;</div>
-      <ul id="nav-links">
+      <ul class="nav-links" id="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
@@ -32,55 +32,81 @@
   </section>
 
   <!-- About -->
-  <section class="about" id="about">
+  <section class="about reveal" id="about">
     <h2>About Me</h2>
-    <p>I’m a Java developer with a solid foundation in backend technologies, cloud concepts, and software engineering principles. Currently pursuing MCA at Chandigarh University.</p>
+    <p>
+      I'm <strong>Shivansh Bagga</strong>, a backend-focused developer passionate about building scalable systems using Java and Spring Boot.
+      Pursuing MCA at Chandigarh University, I'm eager to learn, build, and collaborate.
+    </p>
+    <p>
+      With a strong foundation in software engineering, I enjoy exploring DevOps, writing clean and maintainable code, and
+      contributing to open-source projects. Outside of coding, I love mentoring and participating in tech communities.
+    </p>
   </section>
 
   <!-- Skills -->
-  <section class="skills" id="skills">
+  <section class="skills reveal" id="skills">
     <h2>Skills</h2>
     <div class="skills-grid">
-      <span>Java</span>
-      <span>Spring Boot</span>
-      <span>MySQL</span>
-      <span>Microservices</span>
-      <span>Git</span>
-      <span>Docker</span>
-      <span>YAML</span>
-      <span>Python</span>
-      <span>React.js</span>
+      <div class="skill-category">
+        <h3>Languages & Frameworks</h3>
+        <span>Java</span>
+        <span>Spring Boot</span>
+        <span>Python</span>
+        <span>React.js</span>
+      </div>
+      <div class="skill-category">
+        <h3>Databases & Tools</h3>
+        <span>MySQL</span>
+        <span>PostgreSQL</span>
+      </div>
+      <div class="skill-category">
+        <h3>DevOps & Tools</h3>
+        <span>Git</span>
+        <span>Docker</span>
+        <span>YAML</span>
+        <span>Kubernetes</span>
+        <span>CI/CD</span>
+      </div>
     </div>
   </section>
 
   <!-- Projects -->
-  <section class="projects" id="projects">
+  <section class="projects reveal" id="projects">
     <h2>Projects</h2>
     <div class="project-card">
       <h3>Student Deed</h3>
-      <p>An open-source learning platform for Java, DSA, and DevOps.</p>
+      <p>Open-source platform with resources for Java, DSA, and DevOps.</p>
       <ul>
-        <li>Built using Java, Spring Boot, Docker, and MySQL.</li>
-        <li>Hands-on resources and interactive challenges.</li>
+        <li>Built with Java, Spring Boot, MySQL & Docker.</li>
+        <li>Includes real-world hands-on challenges.</li>
       </ul>
     </div>
     <div class="project-card">
       <h3>Emotion Music App</h3>
-      <p>Flutter + ML app that plays music based on facial expressions.</p>
+      <p>Flutter + ML app that plays songs based on detected emotion.</p>
       <ul>
-        <li>Uses CNN model trained on FER2013 dataset.</li>
-        <li>Detects user mood and suggests songs accordingly.</li>
+        <li>Uses CNN model trained on FER2013.</li>
+        <li>Real-time facial expression analysis.</li>
+      </ul>
+    </div>
+    <div class="project-card">
+      <h3>Portfolio Website</h3>
+      <p>Fully responsive personal website.</p>
+      <ul>
+        <li>Built using HTML, CSS & JavaScript.</li>
+        <li>Showcases skills, projects, and contact info.</li>
       </ul>
     </div>
   </section>
 
   <!-- Connect -->
-  <section class="connect" id="connect">
+  <section class="connect reveal" id="connect">
     <h2>Connect With Me</h2>
     <div class="social-links">
       <a href="https://linkedin.com/in/shivansh-bagga" target="_blank">LinkedIn</a>
       <a href="https://github.com/shivanshbagga" target="_blank">GitHub</a>
-      <a href="mailto:shivanshbagga15@gmail.com" target="_blank">Email Me</a>
+      <a href="mailto:shivanshbagga15@gmail.com">Email Me</a>
     </div>
   </section>
 

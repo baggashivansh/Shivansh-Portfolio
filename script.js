@@ -1,28 +1,43 @@
-// Typewriter animation
-const typeText = "Hi, I'm Shivansh Bagga!!";
+// Typing animation
 const typewriter = document.getElementById("typewriter");
-let idx = 0;
+const text = "Hi, I'm Shivansh Bagga!!";
+let index = 0;
 
-function typingEffect() {
-  if (idx < typeText.length) {
-    typewriter.innerHTML += typeText.charAt(idx);
-    idx++;
-    setTimeout(typingEffect, 120);
+function type() {
+  if (index < text.length) {
+    typewriter.innerHTML += text.charAt(index);
+    index++;
+    setTimeout(type, 70);
   } else {
     setTimeout(() => {
       typewriter.innerHTML = "";
-      idx = 0;
-      typingEffect();
-    }, 2500);
+      index = 0;
+      type();
+    }, 2000);
   }
 }
 
-window.onload = typingEffect;
+type();
 
-// Hamburger menu
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
+// Scroll animation
+function revealOnScroll() {
+  const reveals = document.querySelectorAll(".reveal");
+  for (let el of reveals) {
+    const windowHeight = window.innerHeight;
+    const revealTop = el.getBoundingClientRect().top;
+    if (revealTop < windowHeight - 100) {
+      el.classList.add("active");
+    }
+  }
+}
 
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('show');
+window.addEventListener("scroll", revealOnScroll);
+window.addEventListener("load", revealOnScroll);
+
+// Hamburger menu toggle
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("nav-links");
+
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
 });
