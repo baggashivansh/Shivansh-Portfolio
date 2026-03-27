@@ -1,157 +1,468 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shivansh Bagga</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Shivansh Bagga | Backend Engineer</title>
+    <!-- Google Fonts + Tailwind + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* LIGHT WHITE + SUPER LIGHT BLUE gradient background */
+            background: linear-gradient(135deg, #FDFEFF 0%, #F0F7FF 60%, #E9F2FA 100%);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* card style — crisp white with subtle blue shadow */
+        .card-white {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(172, 196, 220, 0.35);
+            box-shadow: 0 8px 20px -6px rgba(70, 120, 160, 0.08);
+        }
+        
+        .accent-gold { color: #B97F44; }
+        .accent-gold-bg { background-color: #B97F44; }
+        .soft-shadow { box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.02); }
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.4s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.12);
+        }
+
+        /* animated fade-up on scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* skill tag style (light blue/neutral) */
+        .skill-tag {
+            background: #EFF4FA;
+            color: #2C5A7A;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .skill-tag:hover {
+            background: #E2ECF5;
+            transform: scale(1.02);
+        }
+
+        /* section underline accent (blueish to gold mix) */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 55%;
+            height: 3px;
+            background: #9BBFDF;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .section-title:hover:after {
+            width: 85%;
+        }
+
+        /* scrollbar light blue */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E6F0F8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #98B9D6;
+            border-radius: 10px;
+        }
+        a:hover {
+  transform: translateX(2px);
+}
+        
+        /* hero gradient (light fresh) */
+        .hero-gradient-bg {
+            background: radial-gradient(circle at 80% 20%, rgba(155, 191, 223, 0.15), transparent 70%);
+        }
+        
+        /* ===== MOBILE FULLSCREEN HERO + FULL WIDTH ===== */
+        @media (max-width: 768px) {
+            .hero-full-mobile {
+                margin-left: -1.5rem;   /* cancel main container padding (px-6 = 1.5rem) */
+                margin-right: -1.5rem;
+                width: calc(100% + 3rem);
+                border-radius: 0 !important;
+                min-height: 100vh !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-top: 5rem;      /* avoid sticky header overlap */
+                padding-bottom: 2.5rem;
+                background-size: cover;
+            }
+            .hero-full-mobile .hero-inner {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                width: 100%;
+            }
+            /* ensure text alignment readable */
+            .hero-full-mobile h1 {
+                font-size: 2.8rem;
+                line-height: 1.2;
+            }
+            .hero-full-mobile .hero-badge {
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* connection button subtle animation */
+        .connection-btn {
+            transition: all 0.2s ease;
+        }
+        .connection-btn:active {
+            transform: scale(0.97);
+        }
+
+        .hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 50px -15px rgba(0,0,0,0.15);
+}
+        
+        /* extra light border for navbar */
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(155, 191, 223, 0.4);
+        }
+        
+        /* fix any overflow on mobile */
+        @media (max-width: 640px) {
+            .container-fix {
+                overflow-x: hidden;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased container-fix">
 
-  <!-- Header with transparent class -->
-  <header class="transparent">
-    <nav>
-      <div class="logo">Shivansh Bagga</div>
-      <div class="hamburger" id="hamburger">☰</div>
-      <ul id="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#connect">Connect</a></li>
-      </ul>
-    </nav>
-  </header>
+    <!-- navbar: updated button => Connection (scroll to footer) -->
+    <header class="sticky top-0 z-50 nav-blur shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-6 md:px-10 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-tight text-[#2C5A7A]"><span class="text-[#B97F44]">SB</span> | Shivansh</a>
+            <div class="hidden md:flex gap-7 text-[#2E4E6C] font-medium">
+                <a href="#about" class="hover:text-[#B97F44] transition">About</a>
+                <a href="#experience" class="hover:text-[#B97F44] transition">Experience</a>
+                <a href="#projects" class="hover:text-[#B97F44] transition">Projects</a>
+                <a href="#education" class="hover:text-[#B97F44] transition">Education</a>
+            </div>
+            <!-- CONNECTION BUTTON: replaced LinkedIn external link, now scrolls to footer -->
+            <button id="connectionNavBtn" class="connection-btn bg-[#B97F44]/10 hover:bg-[#B97F44]/20 text-[#2C5A7A] px-5 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 shadow-sm">
+                <i class="fas fa-handshake"></i> Connect
+            </button>
+        </div>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1 id="typewriter"></h1>
-      <p>Backend Java Developer | Spring Boot Enthusiast | DevOps Learner</p>
-    </div>
-  </section>
+    <main class="max-w-7xl mx-auto px-6 md:px-10 py-8 md:py-16">
+        
+        <!-- Hero Section (now fullscreen + full width on mobile) -->
+        <section id="hero" class="hero-gradient-bg rounded-3xl py-12 md:py-20 px-6 md:px-12 mb-20 relative overflow-hidden hero-full-mobile transition-all">
+            <div class="hero-inner relative z-2 text-center md:text-left md:flex md:justify-between md:items-center gap-8">
+                <div class="md:w-2/3">
+                    <div class="inline-block px-4 py-1.5 bg-white/70 backdrop-blur-sm rounded-full text-sm font-medium text-[#2C5A7A] shadow-sm mb-5 hero-badge">
+                        <i class="fas fa-code mr-1"></i> Backend Craftsmanship
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-[#1F3E55] leading-tight">
+                        Shivansh <span class="text-[#B97F44]">Bagga</span>
+                    </h1>
+                    <div class="text-2xl md:text-3xl font-semibold mt-4 text-[#2C5A7A] flex flex-wrap items-center gap-2">
+                        <span class="bg-white/60 backdrop-blur-sm px-4 py-1.5 rounded-full text-lg md:text-xl shadow-sm"><i class="fas fa-bolt text-[#B97F44] mr-1"></i> Backend Engineer | Java | Spring Boot</span>
+                    </div>
+                    <div class="mt-6 text-lg md:text-xl text-[#2E4E6C]">
+                        <span class="font-medium">I build </span>
+                        <span id="typed-words" class="font-bold text-[#B97F44] border-b-2 border-[#C7DFF5]"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <a href="#projects" class="bg-[#B97F44] hover:bg-[#9F6739] text-white px-6 py-3 rounded-full font-semibold transition shadow-md flex items-center gap-2"><i class="fas fa-arrow-down"></i> Explore Work</a>
+                        <a href="https://www.linkedin.com/in/shivanshbagga/" target="_blank" class="border border-[#BED7F0] text-[#2C5A7A] hover:bg-white/70 px-6 py-3 rounded-full font-medium transition flex items-center gap-2"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
+                    </div>
+                </div>
+                <div class="hidden md:block md:w-1/3 mt-8 md:mt-0">
+    
+    <div class="relative w-56 h-56 mx-auto rounded-full flex items-center justify-center">
+        
+        <img 
+            src="ShivanshBaggaPfp.jpg" 
+            alt="Shivansh Bagga"
+            class="w-full h-full object-cover rounded-full border border-gray-200"
+        >
 
-  <!-- About Section -->
-  <section class="about" id="about">
-    <h2>About Me</h2>
-    <p>I’m a passionate backend Java developer with a strong grip on Spring Boot and microservices architecture. Currently pursuing my MCA at Chandigarh University, I thrive on building scalable systems and automating workflows using DevOps tools. I enjoy blending clean code with smart infrastructure to create real-world impact. Always learning, always building.</p>
-  </section>
+        <div class="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-sm">
+            <i class="fas fa-laptop-code text-[#B97F44] text-lg"></i>
+        </div>
 
-  <!-- Skills Section -->
-  <section class="skills" id="skills">
-    <h2>Skills</h2>
-    <div class="skill-category">
-      <h3>Languages</h3>
-      <div class="skills-grid">
-        <span>Java</span>
-        <span>Python</span>
-        <span>SQL</span>
-      </div>
-    </div>
-
-    <div class="skill-category">
-      <h3>Frameworks</h3>
-      <div class="skills-grid">
-        <span>Spring Boot</span>
-        <span>Spring</span>
-        <span>Microservices</span>
-        <span>React.js</span>
-      </div>
-    </div>
-
-    <div class="skill-category">
-      <h3>Databases</h3>
-      <div class="skills-grid">
-        <span>MySQL</span>
-        <span>JDBC</span>
-      </div>
-    </div>
-
-    <div class="skill-category">
-      <h3>Tools & Platforms</h3>
-      <div class="skills-grid">
-        <span>Docker</span>
-        <span>CI/CD</span>
-        <span>Kubernetes</span>
-        <span>Git</span>
-        <span>Github</span>
-      </div>
     </div>
 
-    <div class="skill-category">
-      <h3>Others</h3>
-      <div class="skills-grid">
-        <span>Data Structures</span>
-        <span>Rest APIs</span>
-      </div>
-    </div>
-  </section>
+</div>
+            </div>
+        </section>
 
-  <!-- Projects Section -->
-  <section class="projects" id="projects">
-    <h2>Projects</h2>
-    <div class="project-card">
-      <h3>Student Deed</h3>
-      <p>An open-source learning platform for Java, DSA, and DevOps.</p>
-      <ul>
-        <li>Built using Java, Spring Boot, Docker, and MySQL.</li>
-        <li>Hands-on resources and interactive challenges.</li>
-        <a href="https://github.com/baggashivansh/StudentsDeed.git" target="_blank" rel="noopener noreferrer" style="color: black; text-decoration: none;">
-          <br><i>Click Here</i>
-        </a>
-      </ul>
-    </div>
-    <div class="project-card">
-      <h3>DeployMe</h3>
-      <p>A Java-based backend platform for dynamic portfolio/resume creation and real-time content management.</p>
-      <ul>
-        <li>Developed backend APIs using Java, Spring Boot, and MySQL for dynamic data handling, real-time preview, and PDF export.</li>
-        <li>Integrated Docker and CI/CD workflows to simulate production-ready deployment environments.</li>
-      </ul>
-      <a href="https://deployme-shiv.netlify.app/" target="_blank" rel="noopener noreferrer" style="color: black; text-decoration: none;">
-        <br><i>Click Here</i>
-      </a>
-    </div>
-      <div class="project-card">
-      <h3>QReator</h3>
-      <p>Generate QR codes</p>
-      <ul>
-        <li>Uses HTML, CSS & JavaScript.</li>
-        <li>A simple and modern QR Code Generator.</li>
-        <li>Make QR Codes for URLs, text, email, phone, Wi-Fi, customize colors and styles, and download or share instantly.</li>
-      </ul>
-      <a href="https://qreator-shiv.netlify.app" target="_blank" rel="noopener noreferrer" style="color: black; text-decoration: none;">
-        <br><i>Click Here</i>
-      </a>
-    </div>
-    <div class="project-card">
-      <h3>My Personal Portfolio</h3>
-      <p>My Personal Website.</p>
-      <ul>
-        <li>Uses HTML, CSS & JavaScript.</li>
-        <li>Helps you to connect with me Virtually!</li>
-      </ul>
-      <a href="https://shivansh-portfolio-nu.vercel.app" target="_blank" rel="noopener noreferrer" style="color: black; text-decoration: none;">
-        <br><i>Click Here</i>
-      </a>
-    </div>
-  </section>
+        <!-- About Section -->
+        <section id="about" class="fade-up mb-24">
+            <div class="card-white rounded-2xl soft-shadow p-8 md:p-10 border border-[#E7F0F8]">
+                <h2 class="section-title text-3xl font-bold text-[#1F3E55] mb-6"><i class="fas fa-user-astronaut mr-3 text-[#B97F44]"></i> About Me</h2>
+                <p class="text-[#2A4C6E] text-lg leading-relaxed">
+                    Backend Engineer working with Java to build clean and reliable backend services. Strong foundation in Core Java, Object Oriented Programming, and SQL. Hands on experience using Spring Boot to design REST APIs and structure backend applications. I focus on writing readable and maintainable code, designing clear backend layers, and strengthening fundamentals through real projects and continuous implementation.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-2">
+                    <span class="skill-tag"><i class="fab fa-java mr-1"></i> Java</span>
+                    <span class="skill-tag"><i class="fas fa-leaf mr-1"></i> Spring Boot</span>
+                    <span class="skill-tag"><i class="fas fa-plug mr-1"></i> REST APIs</span>
+                    <span class="skill-tag"><i class="fas fa-database mr-1"></i> MySQL</span>
+                    <span class="skill-tag"><i class="fab fa-docker mr-1"></i> Docker</span>
+                    
+                </div>
+            </div>
+        </section>
 
-  <!-- Connect Section -->
-  <section class="connect" id="connect">
-    <h2>Connect With Me</h2>
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/shivanshbagga" target="_blank">LinkedIn</a>
-      <a href="https://github.com/baggashivansh" target="_blank">GitHub</a>
-      <a href="mailto:connect.shivanshbagga@gmail.com" target="_blank">Email Me</a>
-    </div>
-  </section>
+        <!-- Experience Section (AppZime) -->
+        <section id="experience" class="fade-up mb-24">
+            <h2 class="section-title text-3xl font-bold text-[#1F3E55] mb-8"><i class="fas fa-briefcase mr-3 text-[#B97F44]"></i> Work Experience</h2>
+            <div class="card-white rounded-2xl soft-shadow p-7 border-l-8 border-l-[#9BBFDF] hover-lift transition-all">
+                <div class="flex flex-wrap justify-between items-start gap-2">
+                    <div>
+                        <h3 class="text-2xl font-bold text-[#1F3E55]">Java Developer</h3>
+                        <p class="text-[#B97F44] font-semibold text-lg mt-1">AppZime Technologies</p>
+                    </div>
+                    <span class="bg-[#EFF4FA] px-4 py-1 rounded-full text-sm text-[#2C5A7A] font-medium"><i class="far fa-calendar-alt mr-1"></i> Mar 2026 – Present</span>
+                </div>
+                <ul class="mt-5 space-y-2 text-[#2A4C6E] list-disc pl-5">
+                    <li>Design and develop scalable backend services with Java 17, Spring Boot, and MySQL, handling high-throughput REST APIs.</li>
+                    <li>Implemented containerization strategies using Docker, improving deployment consistency and developer onboarding.</li>
+                    <li>Collaborated with cross-functional teams to design database schemas and optimize query performance for financial data modules.</li>
+                   <li>Refactored legacy modules using clean architecture, reduced code complexity and improved maintainability by 35%</li>
+                </ul>
+                <div class="flex flex-wrap gap-2 mt-5">
+                    <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">REST APIs</span><span class="skill-tag">MySQL</span><span class="skill-tag">Docker</span>
+                </div>
+            </div>
+        </section>
 
-  <!-- Footer Section -->
-  <footer>
-    <p>&copy; 2025 Shivansh Bagga. All rights reserved.</p>
-  </footer>
+        <!-- Skills Showcase (core stack) -->
+        <section class="fade-up mb-24">
+            <h2 class="section-title text-3xl font-bold text-[#1F3E55] mb-8"><i class="fas fa-cogs mr-3 text-[#B97F44]"></i> Core Competencies</h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="card-white text-center p-5 rounded-xl soft-shadow hover-lift"><i class="fab fa-java text-4xl text-[#B97F44] mb-2 block"></i><span class="font-semibold">Java</span></div>
+                <div class="card-white text-center p-5 rounded-xl soft-shadow hover-lift"><i class="fas fa-seedling text-4xl text-[#B97F44] mb-2 block"></i><span class="font-semibold">Spring Boot</span></div>
+                <div class="card-white text-center p-5 rounded-xl soft-shadow hover-lift"><i class="fas fa-code-branch text-4xl text-[#B97F44] mb-2 block"></i><span class="font-semibold">REST APIs</span></div>
+                <div class="card-white text-center p-5 rounded-xl soft-shadow hover-lift"><i class="fas fa-database text-4xl text-[#B97F44] mb-2 block"></i><span class="font-semibold">MySQL</span></div>
+                <div class="card-white text-center p-5 rounded-xl soft-shadow hover-lift"><i class="fab fa-docker text-4xl text-[#B97F44] mb-2 block"></i><span class="font-semibold">Docker</span></div>
+            </div>
+        </section>
 
-  <script src="script.js"></script>
+        <!-- Projects Section: Accomplish (Blink, InkSync, Spndr, WeekWise) -->
+        <section id="projects" class="fade-up mb-24">
+            <h2 class="section-title text-3xl font-bold text-[#1F3E55] mb-8"><i class="fas fa-trophy mr-3 text-[#B97F44]"></i> Featured Projects</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Blink -->
+                <div class="card-white rounded-2xl overflow-hidden soft-shadow hover-lift transition-all group">
+                    <div class="h-2 bg-gradient-to-r from-[#C7DFF5] to-[#9BBFDF]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fas fa-link text-3xl text-[#B97F44]"></i>
+                            <h3 class="text-2xl font-bold text-[#1F3E55]">Blink | URL Shortener</h3>
+                        </div>
+                        <p class="text-[#2A4C6E] leading-relaxed mb-4">URL shortening backend that converts long URLs into short, shareable links. Built with Java, Spring Boot, and MySQL to explore link generation, storage, and redirection logic. Focus on backend design including database schema, efficient link lookup, and API based link creation and resolution.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">REST APIs</span><span class="skill-tag">MySQL</span>
+                        </div>
+                        <div class="text-sm text-[#7B9CBA]"><i class="fas fa-code-branch mr-1"></i> high-performance redirection</div>
+                        <a href="https://github.com/baggashivansh/Blink" target="_blank" 
+class="text-sm font-medium text-[#B97F44]">
+  View Code →
+</a>
+                    </div>
+                </div>
+                <!-- InkSync -->
+                <div class="card-white rounded-2xl overflow-hidden soft-shadow hover-lift transition-all group">
+                    <div class="h-2 bg-gradient-to-r from-[#C7DFF5] to-[#9BBFDF]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fas fa-pen-fancy text-3xl text-[#B97F44]"></i>
+                            <h3 class="text-2xl font-bold text-[#1F3E55]">InkSync | Collaborative Notes</h3>
+                        </div>
+                        <p class="text-[#2A4C6E] leading-relaxed mb-4">Realtime collaborative notes backend enabling multiple users to edit shared documents simultaneously. Built with Java, Spring Boot, and WebSockets to synchronize document updates across connected clients and maintain consistent document state during concurrent edits.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">WebSocket</span><span class="skill-tag">STOMP</span>
+                        </div>
+                        <div class="text-sm text-[#7B9CBA]"><i class="fas fa-sync-alt mr-1"></i> real-time sync, conflict-free</div>
+                                    <a href="https://github.com/baggashivansh/InkSync" target="_blank" 
+class="text-sm font-medium text-[#B97F44]">
+  View Code →
+</a>
+                    </div>
+              
+                </div>
+                <!-- Spndr -->
+                <div class="card-white rounded-2xl overflow-hidden soft-shadow hover-lift transition-all group">
+                    <div class="h-2 bg-gradient-to-r from-[#C7DFF5] to-[#9BBFDF]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fas fa-chart-line text-3xl text-[#B97F44]"></i>
+                            <h3 class="text-2xl font-bold text-[#1F3E55]">Spndr | Expense Tracking</h3>
+                        </div>
+                        <p class="text-[#2A4C6E] leading-relaxed mb-4">Tracks daily expenses with categories and simple summaries. Built using Java, Spring Boot, and MySQL. Explores how financial data is structured, stored, and queried efficiently, with APIs for managing and analyzing expenses.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">REST APIs</span><span class="skill-tag">MySQL</span>
+                        </div>
+                        <div class="text-sm text-[#7B9CBA]"><i class="fas fa-wallet mr-1"></i> category-based summaries</div>
+                          <a href="https://github.com/baggashivansh/Spndr" target="_blank" 
+class="text-sm font-medium text-[#B97F44]">
+  View Code →
+</a>
+                    </div>
+                </div>
+                <!-- WeekWise -->
+                <div class="card-white rounded-2xl overflow-hidden soft-shadow hover-lift transition-all group">
+                    <div class="h-2 bg-gradient-to-r from-[#C7DFF5] to-[#9BBFDF]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fas fa-calendar-week text-3xl text-[#B97F44]"></i>
+                            <h3 class="text-2xl font-bold text-[#1F3E55]">WeekWise | Productivity Tracker</h3>
+                        </div>
+                        <p class="text-[#2A4C6E] leading-relaxed mb-4">Tracks tasks and progress across the week. Built using Java, Spring Boot, and MySQL. Explores task organization, progress tracking, and how structured data can be used to reflect weekly productivity through simple APIs.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="skill-tag">Java</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">REST APIs</span><span class="skill-tag">JPA</span>
+                        </div>
+                        <div class="text-sm text-[#7B9CBA]"><i class="fas fa-chart-simple mr-1"></i> weekly insights & analytics</div>
+                          <a href="https://github.com/baggashivansh/WeekWise" target="_blank" 
+class="text-sm font-medium text-[#B97F44]">
+  View Code →
+</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="fade-up mb-24">
+            <h2 class="section-title text-3xl font-bold text-[#1F3E55] mb-8"><i class="fas fa-graduation-cap mr-3 text-[#B97F44]"></i> Education</h2>
+            <div class="space-y-6">
+                <div class="card-white rounded-xl p-6 soft-shadow flex flex-wrap md:flex-nowrap gap-4 justify-between items-start hover-lift">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#1F3E55]">CHANDIGARH UNIVERSITY</h3>
+                        <p class="text-[#B97F44] font-medium">Master of Computer Applications, Computer Science</p>
+                        <p class="text-gray-500 text-sm mt-1">Jul 2024 – June 2026</p>
+                    </div>
+                    <span class="bg-[#EFF4FA] px-4 py-1.5 rounded-full font-semibold text-[#2C5A7A]">Grade: 9.0 CGPA</span>
+                </div>
+                <div class="card-white rounded-xl p-6 soft-shadow flex flex-wrap md:flex-nowrap gap-4 justify-between items-start hover-lift">
+                    <div>
+                        <h3 class="text-xl font-bold text-[#1F3E55]">Shri Guru Ram Rai P.G College, Dehradun</h3>
+                        <p class="text-[#B97F44] font-medium">Bachelor's degree, Information Technology</p>
+                        <p class="text-gray-500 text-sm mt-1">Jul 2021 – Jun 2024</p>
+                    </div>
+                    <span class="bg-[#EFF4FA] px-4 py-1.5 rounded-full font-semibold text-[#2C5A7A]">Grade: 8.24 CGPA</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Contact with id="global-footer" for connection button scroll -->
+        <footer id="global-footer" class="border-t border-[#C7DFF5] pt-10 mt-8 text-center text-[#5C7F9A]">
+            <div class="flex justify-center gap-6 mb-4">
+                <a href="https://www.linkedin.com/in/shivanshbagga/" target="_blank" class="text-[#B97F44] hover:text-[#8B5A2B] text-2xl transition"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/baggashivansh" class="text-[#B97F44] hover:text-[#8B5A2B] text-2xl transition"><i class="fab fa-github"></i></a>
+                <a href="mailto:connect.shivanshbagga@gmail.com" class="text-[#B97F44] hover:text-[#8B5A2B] text-2xl transition"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-sm">© 2026 | Shivansh Bagga</p>
+        </footer>
+    </main>
+
+    <!-- Scroll Reveal + typed init + Connection button scroll logic -->
+    <script>
+        // typed.js init
+        var typed = new Typed('#typed-words', {
+            strings: ['scalable backends.', 'REST APIs.', 'clean Spring Boot apps.', 'robust Java systems.', 'real-time magic.'],
+            typeSpeed: 55,
+            backSpeed: 30,
+            backDelay: 1500,
+            startDelay: 500,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|',
+            smartBackspace: true
+        });
+
+        // Intersection Observer for fade-up animations
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+        fadeElements.forEach(el => observer.observe(el));
+
+        // add visible class to any already visible items on load
+        window.addEventListener('load', () => {
+            fadeElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('visible');
+                    observer.unobserve(el);
+                }
+            });
+        });
+
+        // CONNECTION BUTTON (navbar) -> scroll to footer smoothly
+        const connectionBtn = document.getElementById('connectionNavBtn');
+        const footerElement = document.getElementById('global-footer');
+        
+        if (connectionBtn && footerElement) {
+            connectionBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                footerElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+        
+        // Optional: adjust for mobile hero full viewport after load to avoid any weird layout shifts
+        // ensures that hero full height on mobile accounts for any dynamic elements
+        if (window.innerWidth <= 768) {
+            const heroSection = document.querySelector('#hero');
+            if (heroSection) {
+                // ensure min-height is enforced
+                heroSection.style.minHeight = '100vh';
+            }
+        }
+    </script>
 </body>
 </html>
