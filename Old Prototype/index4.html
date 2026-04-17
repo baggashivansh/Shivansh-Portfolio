@@ -13,7 +13,416 @@
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Typed.js -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12">
+    (function () {
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+
+        /* ── CONFIG ── */
+        const CFG = {
+            /* node counts per tier */
+            HUB_COUNT: 3,
+            MID_COUNT: 22,
+            SMALL_COUNT: 38,
+
+            /* visual */
+            MAX_DIST_HUB: 260,
+            MAX_DIST_MID: 180,
+            MAX_DIST_SMALL: 110,
+
+            /* colors — your brand blues */
+            C_CORE:    '#1B64CA',
+            C_MID:     '#4A8AE8', 
+            C_SMALL:   '#94b8ef',
+            C_PACKET:  '#1B64CA',
+
+            /* speed */
+            SPEED_BASE: 0.38,
+            SPEED_SMALL: 0.55,
+
+            /* mouse */
+            MOUSE_ATTRACT_R: 150,
+            MOUSE_ATTRACT_F: 0.028,
+            MOUSE_REPEL_R: 70,
+            MOUSE_REPEL_F: 0.06,
+
+            /* glow */
+            GLOW_CORE_R:  28,
+            GLOW_MID_R:   14,
+
+            /* data packets */
+            PACKET_SPAWN_CHANCE: 0.003,   // per frame per edge
+            PACKET_SPEED: 0.018,
+
+            /* pulse rings */
+            PULSE_INTERVAL: 3400,
+        };
+
+        let W, H, dpr;
+        let nodes = [], edges = [], packets = [];
+        let pointer = { x: null, y: null };
+        let pulseTimers = [];
+        let frameCount = 0;
+        let isMobile = false;
+
+        /* ── RESIZE ── */
+        function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width  = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width  = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            isMobile = W < 768;
+        }
+
+        /* ── NODE FACTORY ── */
+        function makeNode(tier) {
+            const speed = tier === 'hub'   ? CFG.SPEED_BASE * 0.5
+                        : tier === 'mid'   ? CFG.SPEED_BASE
+                        :                   CFG.SPEED_SMALL;
+            const r     = tier === 'hub'   ? 5.5
+                        : tier === 'mid'   ? 3.2
+                        :                   1.8;
+            const margin = 40;
+            return {
+                tier,
+                x: margin + Math.random() * (W - margin * 2),
+                y: margin + Math.random() * (H - margin * 2),
+                vx: (Math.random() - 0.5) * speed * 2,
+                vy: (Math.random() - 0.5) * speed * 2,
+                r,
+                /* pulse state */
+                pulseT: 0,
+                pulseActive: false,
+                /* breathing */
+                breathPhase: Math.random() * Math.PI * 2,
+                /* opacity shimmer */
+                shimmerPhase: Math.random() * Math.PI * 2,
+            };
+        }
+
+        /* ── INIT ── */
+        function init() {
+            nodes = []; edges = []; packets = [];
+
+            const hubN   = isMobile ? 3  : CFG.HUB_COUNT;
+            const midN   = isMobile ? 14 : CFG.MID_COUNT;
+            const smN    = isMobile ? 22 : CFG.SMALL_COUNT;
+
+            for (let i = 0; i < hubN;  i++) nodes.push(makeNode('hub'));
+            for (let i = 0; i < midN;  i++) nodes.push(makeNode('mid'));
+            for (let i = 0; i < smN;   i++) nodes.push(makeNode('small'));
+
+            /* schedule initial hub pulses staggered */
+            nodes.filter(n => n.tier === 'hub').forEach((n, i) => {
+                setTimeout(() => triggerPulse(n), i * 600 + 200);
+            });
+        }
+
+        /* ── PULSE ── */
+        function triggerPulse(node) {
+            node.pulseActive = true;
+            node.pulseT = 0;
+        }
+
+        /* ── DATA PACKET ── */
+        function spawnPacket(a, b) {
+            if (packets.length > 60) return;
+            packets.push({ ax: a.x, ay: a.y, bx: b.x, by: b.y, t: 0, speed: CFG.PACKET_SPEED + Math.random() * 0.01 });
+        }
+
+        /* ── DRAW GLOW ── */
+        function drawGlow(x, y, r, color, alpha) {
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+            grad.addColorStop(0,   hexAlpha(color, alpha));
+            grad.addColorStop(0.4, hexAlpha(color, alpha * 0.5));
+            grad.addColorStop(1,   hexAlpha(color, 0));
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+        }
+
+        /* ── DRAW EDGE ── */
+        function drawEdge(ax, ay, bx, by, opacity, strokeW, color) {
+            const grad = ctx.createLinearGradient(ax, ay, bx, by);
+            grad.addColorStop(0,   hexAlpha(color, 0));
+            grad.addColorStop(0.3, hexAlpha(color, opacity));
+            grad.addColorStop(0.7, hexAlpha(color, opacity));
+            grad.addColorStop(1,   hexAlpha(color, 0));
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(bx, by);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = strokeW;
+            ctx.stroke();
+        }
+
+        /* ── DRAW PULSE RING ── */
+        function drawPulseRing(x, y, t, color) {
+            /* t: 0→1 */
+            const maxR = 48;
+            const r    = t * maxR;
+            const a    = (1 - t) * 0.55;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.strokeStyle = hexAlpha(color, a);
+            ctx.lineWidth = 1.5 * (1 - t * 0.7);
+            ctx.stroke();
+
+            /* second ring slightly delayed */
+            if (t > 0.18) {
+                const t2 = t - 0.18;
+                const r2 = t2 * maxR;
+                const a2 = (1 - t2) * 0.3;
+                ctx.beginPath();
+                ctx.arc(x, y, r2, 0, Math.PI * 2);
+                ctx.strokeStyle = hexAlpha(color, a2);
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+        }
+
+        /* ── MAIN DRAW LOOP ── */
+        function draw() {
+            frameCount++;
+            ctx.clearRect(0, 0, W, H);
+
+            /* ── UPDATE NODES ── */
+            const t = frameCount * 0.006;
+            nodes.forEach(n => {
+                /* breathing size */
+                const breath = 1 + Math.sin(t + n.breathPhase) * 0.12;
+
+                /* move */
+                n.x += n.vx;
+                n.y += n.vy;
+
+                /* soft bounce */
+                const margin = 20;
+                if (n.x < margin) { n.x = margin; n.vx = Math.abs(n.vx); }
+                if (n.x > W - margin) { n.x = W - margin; n.vx = -Math.abs(n.vx); }
+                if (n.y < margin) { n.y = margin; n.vy = Math.abs(n.vy); }
+                if (n.y > H - margin) { n.y = H - margin; n.vy = -Math.abs(n.vy); }
+
+                /* clamp velocity */
+                const maxV = n.tier === 'hub' ? 0.6 : n.tier === 'mid' ? 0.8 : 1.1;
+                const spd  = Math.hypot(n.vx, n.vy);
+                if (spd > maxV) { n.vx = (n.vx / spd) * maxV; n.vy = (n.vy / spd) * maxV; }
+
+                /* pointer influence */
+                if (pointer.x !== null) {
+                    const dx = pointer.x - n.x, dy = pointer.y - n.y;
+                    const d  = Math.hypot(dx, dy);
+                    if (d < CFG.MOUSE_REPEL_R && d > 0.1) {
+                        /* repel */
+                        n.vx -= (dx / d) * CFG.MOUSE_REPEL_F;
+                        n.vy -= (dy / d) * CFG.MOUSE_REPEL_F;
+                    } else if (d < CFG.MOUSE_ATTRACT_R && d > 0.1) {
+                        /* attract hubs/mids */
+                        const f = (n.tier === 'hub' ? 1.4 : 0.8) * CFG.MOUSE_ATTRACT_F;
+                        n.vx += (dx / d) * f;
+                        n.vy += (dy / d) * f;
+                    }
+                }
+
+                /* store breath */
+                n._breath = breath;
+            });
+
+            /* ── COLLECT EDGES (spatial approach: just iterate pairs) ── */
+            edges = [];
+            for (let i = 0; i < nodes.length; i++) {
+                const a = nodes[i];
+                const maxD = a.tier === 'hub' ? CFG.MAX_DIST_HUB
+                           : a.tier === 'mid' ? CFG.MAX_DIST_MID
+                           : CFG.MAX_DIST_SMALL;
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const b = nodes[j];
+                    const dx = a.x - b.x, dy = a.y - b.y;
+                    const d  = Math.sqrt(dx * dx + dy * dy);
+                    if (d < maxD) {
+                        edges.push({ a, b, d, maxD });
+                    }
+                }
+            }
+
+            /* ── DRAW EDGES ── */
+            edges.forEach(({ a, b, d, maxD }) => {
+                const ratio = 1 - d / maxD;
+                const isHubEdge = a.tier === 'hub' || b.tier === 'hub';
+                const isMidEdge = a.tier === 'mid' || b.tier === 'mid';
+                const opacity  = isHubEdge ? ratio * 0.38
+                               : isMidEdge ? ratio * 0.22
+                               : ratio * 0.13;
+                const strokeW  = isHubEdge ? 1.2 : isMidEdge ? 0.7 : 0.4;
+                const color    = isHubEdge ? CFG.C_CORE : isMidEdge ? CFG.C_MID : CFG.C_SMALL;
+                drawEdge(a.x, a.y, b.x, b.y, opacity, strokeW, color);
+
+                /* spawn data packets */
+                if (isHubEdge && Math.random() < CFG.PACKET_SPAWN_CHANCE * (1 + ratio)) {
+                    spawnPacket(Math.random() < 0.5 ? a : b, Math.random() < 0.5 ? b : a);
+                }
+            });
+
+            /* ── UPDATE & DRAW PACKETS ── */
+            for (let i = packets.length - 1; i >= 0; i--) {
+                const p = packets[i];
+                p.t += p.speed;
+
+                /* update source position (nodes moved) */
+                /* keep ax/ay/bx/by as snapshot — packet travels between snapshot positions */
+                if (p.t >= 1) { packets.splice(i, 1); continue; }
+
+                const x = p.ax + (p.bx - p.ax) * p.t;
+                const y = p.ay + (p.by - p.ay) * p.t;
+
+                /* glow trail */
+                const trailLen = 0.08;
+                const tx = p.ax + (p.bx - p.ax) * Math.max(0, p.t - trailLen);
+                const ty = p.ay + (p.by - p.ay) * Math.max(0, p.t - trailLen);
+
+                const tGrad = ctx.createLinearGradient(tx, ty, x, y);
+                tGrad.addColorStop(0, hexAlpha(CFG.C_PACKET, 0));
+                tGrad.addColorStop(1, hexAlpha(CFG.C_PACKET, 0.9));
+                ctx.beginPath();
+                ctx.moveTo(tx, ty);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = tGrad;
+                ctx.lineWidth = 1.8;
+                ctx.stroke();
+
+                /* bright dot */
+                drawGlow(x, y, 7, CFG.C_PACKET, 0.35);
+                ctx.beginPath();
+                ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = CFG.C_CORE;
+                ctx.fill();
+            }
+
+            /* ── DRAW NODES ── */
+            nodes.forEach(n => {
+                const br = n._breath || 1;
+                const shimmer = 0.7 + 0.3 * Math.sin(frameCount * 0.025 + n.shimmerPhase);
+
+                if (n.tier === 'hub') {
+                    /* outer glow */
+                    drawGlow(n.x, n.y, CFG.GLOW_CORE_R * br, CFG.C_CORE, 0.18 * shimmer);
+                    /* ring */
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r * 1.9 * br, 0, Math.PI * 2);
+                    ctx.strokeStyle = hexAlpha(CFG.C_CORE, 0.25 * shimmer);
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    /* core */
+                    const cg = ctx.createRadialGradient(n.x - n.r * 0.3, n.y - n.r * 0.3, 0, n.x, n.y, n.r * br);
+                    cg.addColorStop(0, '#a8c8ff');
+                    cg.addColorStop(0.5, CFG.C_CORE);
+                    cg.addColorStop(1,  CFG.C_MID);
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r * br, 0, Math.PI * 2);
+                    ctx.fillStyle = cg;
+                    ctx.fill();
+
+                    /* pulse ring */
+                    if (n.pulseActive) {
+                        n.pulseT += 0.018;
+                        drawPulseRing(n.x, n.y, n.pulseT, CFG.C_CORE);
+                        if (n.pulseT >= 1) { n.pulseActive = false; n.pulseT = 0; }
+                    }
+
+                } else if (n.tier === 'mid') {
+                    drawGlow(n.x, n.y, CFG.GLOW_MID_R * br, CFG.C_MID, 0.12 * shimmer);
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r * br, 0, Math.PI * 2);
+                    ctx.fillStyle = hexAlpha(CFG.C_MID, 0.85 * shimmer);
+                    ctx.fill();
+
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.r * br, 0, Math.PI * 2);
+                    ctx.fillStyle = hexAlpha(CFG.C_SMALL, 0.55 * shimmer);
+                    ctx.fill();
+                }
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        /* ── PERIODIC HUB PULSES ── */
+        function schedulePulses() {
+            setInterval(() => {
+                const hubs = nodes.filter(n => n.tier === 'hub');
+                if (hubs.length) {
+                    const hub = hubs[Math.floor(Math.random() * hubs.length)];
+                    triggerPulse(hub);
+                }
+            }, CFG.PULSE_INTERVAL);
+        }
+
+        /* ── POINTER / TOUCH ── */
+        window.addEventListener('mousemove', e => { pointer.x = e.clientX; pointer.y = e.clientY; });
+        window.addEventListener('mouseleave', () => { pointer.x = null; pointer.y = null; });
+        window.addEventListener('touchstart', e => {
+            const t = e.touches[0];
+            pointer.x = t.clientX; pointer.y = t.clientY;
+        }, { passive: true });
+        window.addEventListener('touchmove', e => {
+            const t = e.touches[0];
+            pointer.x = t.clientX; pointer.y = t.clientY;
+        }, { passive: true });
+        window.addEventListener('touchend', () => { pointer.x = null; pointer.y = null; }, { passive: true });
+
+        /* ── TAP / CLICK BURST ── */
+        window.addEventListener('click', e => {
+            /* create a shockwave ripple from all nearby nodes */
+            const cx = e.clientX, cy = e.clientY;
+            nodes.forEach(n => {
+                const dx = n.x - cx, dy = n.y - cy;
+                const d = Math.hypot(dx, dy);
+                if (d < 220 && d > 0.1) {
+                    const f = (1 - d / 220) * 3.5;
+                    n.vx += (dx / d) * f;
+                    n.vy += (dy / d) * f;
+                }
+            });
+            /* burst pulse on nearest hub */
+            let nearest = null, nearD = Infinity;
+            nodes.filter(n => n.tier === 'hub').forEach(n => {
+                const d = Math.hypot(n.x - cx, n.y - cy);
+                if (d < nearD) { nearD = d; nearest = n; }
+            });
+            if (nearest) triggerPulse(nearest);
+        });
+
+        /* ── RESIZE ── */
+        window.addEventListener('resize', () => {
+            resize();
+            init();
+        });
+
+        /* ── UTILITY ── */
+        function hexAlpha(hex, a) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r},${g},${b},${a.toFixed(3)})`;
+        }
+
+        /* ── BOOT ── */
+        resize();
+        init();
+        schedulePulses();
+        draw();
+    })();
+    </script>
     <style>
         * {
             margin: 0;
@@ -24,7 +433,7 @@
         body {
             font-family: 'Inter', sans-serif;
             /* LIGHT WHITE + SUPER LIGHT BLUE gradient background */
-            background: linear-gradient(135deg, #FDFEFF 0%, #F0F7FF 60%, #E9F2FA 100%);
+            /* background: linear-gradient(135deg, #FDFEFF 0%, #F0F7FF 60%, #E9F2FA 100%); */
             scroll-behavior: smooth;
             overflow-x: hidden;
         }

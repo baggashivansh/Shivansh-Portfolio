@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shivansh Bagga | Backend Engineer</title>
+  <style>
+    /* ========== Global Styles ========== */
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #f5f5f5;
+      background: url('[images.unsplash.com](https://images.unsplash.com/photo-1535223289827-42f1e9919769?fit=crop&w=1950&q=80)') 
+        no-repeat center center fixed;
+      background-size: cover;
+      backdrop-filter: blur(4px);
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    h1, h2, h3 {
+      color: #00e0ff;
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: #00eaff;
+      text-decoration: none;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    nav {
+      margin-top: 1rem;
+    }
+
+    nav a {
+      margin: 0 10px;
+      font-weight: 600;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      main {
+        padding: 1rem;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <main>
+    <header>
+      <h1>Shivansh Bagga</h1>
+      <p>Backend Engineer · Java · Spring Boot</p>
+      <nav>
+        <a href="#about">About</a> |
+        <a href="#experience">Experience</a> |
+        <a href="#projects">Projects</a> |
+        <a href="#education">Education</a>
+      </nav>
+    </header>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        I’m a Backend Engineer passionate about building scalable and robust systems using Java and Spring Boot.
+        I focus on clean architecture, structured data flow, and production-ready REST APIs backed by strong system design thinking.
+      </p>
+      <p><b>Skills:</b> Java · Spring Boot · REST APIs · MySQL · Docker · System Design</p>
+      <p><a href="[linkedin.com](https://www.linkedin.com/in/shivanshbagga/)" target="_blank">Connect on LinkedIn →</a></p>
+    </section>
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <h3>Java Developer · AppZime Technologies</h3>
+      <p><i>Mar 2026 – Present</i></p>
+      <ul>
+        <li>Developed RESTful APIs with Java 17, Spring Boot, and MySQL.</li>
+        <li>Improved backend modularity using clean architecture.</li>
+        <li>Optimized queries and schema for high-performance data handling.</li>
+        <li>Containerized applications using Docker for consistent environments.</li>
+      </ul>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <div>
+        <h3>Blink — URL Shortener</h3>
+        <p>Hash-based short URLs with fast redirection and REST API support.</p>
+        <a href="[github.com](https://github.com/baggashivansh/Blink)" target="_blank">View Code →</a>
+      </div>
+      <div>
+        <h3>InkSync — Collaborative Notes</h3>
+        <p>Real-time collaborative note editing backend using WebSockets & STOMP.</p>
+        <a href="[github.com](https://github.com/baggashivansh/InkSync)" target="_blank">View Code →</a>
+      </div>
+      <div>
+        <h3>Spndr — Expense Tracker</h3>
+        <p>Structured RESTful backend for tracking and analyzing financial expenses.</p>
+        <a href="[github.com](https://github.com/baggashivansh/Spndr)" target="_blank">View Code →</a>
+      </div>
+      <div>
+        <h3>WeekWise — Productivity Tracker</h3>
+        <p>API system for weekly tasks and productivity analytics using JPA.</p>
+        <a href="[github.com](https://github.com/baggashivansh/WeekWise)" target="_blank">View Code →</a>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <p><strong>Chandigarh University</strong> — MCA (Jul 2024 – Jun 2026) · 9.0 CGPA<br>
+         Focus: Backend Development, Java, System Design</p>
+      <p><strong>Shri Guru Ram Rai P.G College</strong> — B.Sc. in Information Technology (Jul 2021 – Jun 2024) · 8.24 CGPA</p>
+    </section>
+  </main>
+</body>
+</html>
